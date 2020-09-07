@@ -1,9 +1,13 @@
-package com.mynetflix.db;
+package com.mynetflix.db.crawl;
 
+import com.mynetflix.db.StaticData;
 import com.mynetflix.db.model.MoviePreview;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CrawlingDynamic {
@@ -11,48 +15,26 @@ public class CrawlingDynamic {
     public MoviePreview movie;
     public ArrayList<MoviePreview> movieList = null;
     public String posterPath, title, releaseDate, overview;
-    public String tvPath;
+    public String tvPath, tvId;
     public ArrayList<Long> tvIdList = null;
 
     // Web Driver
-    private WebDriver driver;
-
-    private JavascriptExecutor jse;
-
-    // Web Driver Key 값
-    public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    // Web Driver 의 로컬 경로
-    public static final String WEB_DRIVER_PATH = "D:/MyNetflix/download/selenium/chromedriver.exe";
-
-    // crawling 할 웹사이트 URL
-    public static final String main_URL = "https://www.themoviedb.org/network/213?language=ko-KR";
-
-
-    public static void main(String[] args) {
-
-        CrawlingDynamic TMDbCrawling = new CrawlingDynamic();
-
-        TMDbCrawling.CrawlAllTVIds();
-        //TMDbCrawling.crawlLoop();
-        //TMDbCrawling.crawl();
-    }
+    private final WebDriver driver;
 
     public CrawlingDynamic() {
-        super();
 
         // System Property SetUp
-        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+        System.setProperty(StaticData.WEB_DRIVER_ID, StaticData.WEB_DRIVER_PATH);
 
         // Driver SetUp
         driver = new ChromeDriver();
-
         // 웹사이트의 전체 html 문서 crawl
-        driver.get(main_URL);
+        driver.get(StaticData.TV_PROGRAMS_NETFLIX_URL);
     }
 
     public void CrawlAllTVIds() {
 
-        movieList = new ArrayList<>();
+        tvIdList = new ArrayList<>();
 
         try {
             // 영화 목록 전체를 포함하는 가장 하위 태그 select
@@ -70,7 +52,9 @@ public class CrawlingDynamic {
                     // tv 프로그램 정보가 담겨있는 URI
                     tvPath = poster.findElement(By.tagName("a")).getAttribute("href");
 
-                    System.out.println(tvPath.split("/")[4].split("\\?")[0]);
+                    tvId = tvPath.split("/")[4].split("\\?")[0];
+
+                    tvIdList.add(Long.parseLong(tvId));
                 }
 
                 if(i==1) {
@@ -87,13 +71,6 @@ public class CrawlingDynamic {
         } finally {
             driver.close();
         }
-
-        /*
-        for (MoviePreview m : movieList) {
-            System.out.println(m.toString());
-        }
-
-         */
     }
 
     public void crawl() {
