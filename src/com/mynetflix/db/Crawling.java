@@ -13,7 +13,8 @@ public class Crawling extends CrawlingDynamic {
         crawlingDynamic.CrawlAllMovieIds();
 
         //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.TV_ID_LIST_FILE_PATH);
-        //makeFile.makeFile();
+        MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.MOVIE_ID_LIST_FILE_PATH);
+        makeFile.makeFile();
 
         //JsonGetter jsonGetter = new JsonGetter();
         //jsonGetter.getTVProgramList();

@@ -117,38 +117,14 @@ public class CrawlingDynamic {
             WebElement movies = content.findElement(By.id("media_results"));
 
 
-            WebElement page = movies.findElement(By.id("page_1"));
-
-            for (WebElement card : page.findElements(By.cssSelector("div.image"))) {
-
-                // card 의 wrapper 부분
-                WebElement wrapper = card.findElement(By.className("wrapper"));
-
-                // movie_id 가 담겨있는 URI
-                moviePath = wrapper.findElement(By.tagName("a")).getAttribute("href");
-
-                movieId = moviePath.split("/")[4].split("\\?")[0];
-
-                //movieIdList.add(Long.parseLong(movieId));
-
-                System.out.println(movieId);
-
-            }
-
-            page.findElement(By.cssSelector("p.load_more")).click();
-
-            Thread.sleep(1000);
-
-
-            /*
             for (int i = 1; i <= 157; i++) {
                 WebElement page = movies.findElement(By.id("page_" + i));
                 //WebElement page = movies.findElement(By.id("page_1"));
 
-                for (WebElement card : page.findElements(By.className("card"))) {
+                for (WebElement card : page.findElements(By.cssSelector("div.image"))) {
 
                     // card 의 wrapper 부분
-                    WebElement wrapper = card.findElement(By.cssSelector("div.image")).findElement(By.className("wrapper"));
+                    WebElement wrapper = card.findElement(By.className("wrapper"));
 
                     // movie_id 가 담겨있는 URI
                     moviePath = wrapper.findElement(By.tagName("a")).getAttribute("href");
@@ -156,17 +132,21 @@ public class CrawlingDynamic {
                     movieId = moviePath.split("/")[4].split("\\?")[0];
 
                     movieIdList.add(Long.parseLong(movieId));
+
                 }
 
-                if(i==1) {
+                if (i == 1) {
                     page.findElement(By.cssSelector("p.load_more")).click();
                 } else {
                     driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
                 }
 
+                System.out.print(i + " ");
+
+                if(i%20==0) System.out.println();
+
                 Thread.sleep(1000);
             }
-             */
 
         } catch (Exception e) {
             e.printStackTrace();
