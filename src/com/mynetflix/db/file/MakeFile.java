@@ -38,8 +38,7 @@ public class MakeFile {
 
             fw.flush();
 
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if (fw != null) {

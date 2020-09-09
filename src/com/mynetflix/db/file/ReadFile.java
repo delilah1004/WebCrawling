@@ -1,56 +1,44 @@
 package com.mynetflix.db.file;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.mynetflix.db.StaticData;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ReadFile {
 
-    private ArrayList<Long> tvIdList;
-    private final String filePath;
+    public BufferedReader br;
 
-    public ReadFile(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public void readFile() {
-
-        FileReader fr = null;
-        BufferedReader br = null;
-        StringTokenizer st;
-
-        String line;
-        tvIdList = new ArrayList<>();
+    // 공통 함수
+    // API URL 반환값 읽어오기
+    public void getReader(String url) {
 
         try {
-            fr = new FileReader(new File(filePath));
-            br = new BufferedReader(fr);
+            URL getTvURL = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) getTvURL.openConnection();
+            conn.setRequestMethod(StaticData.protocol);
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            // file 한줄씩 읽기
-            while ((line = br.readLine()) != null) {
-
-                // StringTokenizer 에 한 줄 담기
-                st = new StringTokenizer(line);
-
-                // StringTokenizer 에 담긴 토큰을 list 에 추가
-                while (st.hasMoreTokens()) {
-                    tvIdList.add(Long.parseLong(st.nextToken()));
-                }
-            }
-
-        } catch (
-                IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-
-            try {
-                if (fr != null) fr.close();
-                if (br != null) br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
+
     }
 
+    // 읽어온 정보 JsonObject 값으로 받기
+    public JsonObject getJson() {
+
+        return JsonParser.parseReader(br).getAsJsonObject();
+    }
+
+    // 장르 JsonArray 값 받기
+    public JsonArray getGenres() {
+
+        return getJson().get("genres").getAsJsonArray();
+    }
 }

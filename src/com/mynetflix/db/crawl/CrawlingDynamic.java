@@ -5,9 +5,6 @@ import com.mynetflix.db.model.MoviePreview;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class CrawlingDynamic {
@@ -15,8 +12,11 @@ public class CrawlingDynamic {
     public MoviePreview movie;
     public ArrayList<MoviePreview> movieList = null;
     public String posterPath, title, releaseDate, overview;
+
     public String tvPath, tvId;
-    public ArrayList<Long> tvIdList = null;
+    private String moviePath, movieId;
+
+    public ArrayList<Long> tvIdList, movieIdList;
 
     // Web Driver
     private final WebDriver driver;
@@ -28,16 +28,17 @@ public class CrawlingDynamic {
 
         // Driver SetUp
         driver = new ChromeDriver();
-        // 웹사이트의 전체 html 문서 crawl
-        driver.get(StaticData.TV_PROGRAMS_NETFLIX_URL);
     }
 
     public void CrawlAllTVIds() {
 
+        // 웹사이트의 전체 html 문서 crawl
+        driver.get(StaticData.TV_PROGRAMS_NETFLIX_URL);
+
         tvIdList = new ArrayList<>();
 
         try {
-            // 영화 목록 전체를 포함하는 가장 하위 태그 select
+            // TV Program 목록 전체를 포함하는 가장 하위 태그 select
             WebElement elements = driver.findElement(By.cssSelector("div.items_wrapper"));
 
             for (int i = 1; i <= 45; i++) {
@@ -49,12 +50,112 @@ public class CrawlingDynamic {
                     // 카드의 포스터 부분
                     WebElement poster = card.findElement(By.className("poster"));
 
-                    // tv 프로그램 정보가 담겨있는 URI
+                    // TV Program 정보가 담겨있는 URI
                     tvPath = poster.findElement(By.tagName("a")).getAttribute("href");
 
                     tvId = tvPath.split("/")[4].split("\\?")[0];
 
                     tvIdList.add(Long.parseLong(tvId));
+                }
+
+                if (i == 1) {
+                    page.findElement(By.cssSelector("p.load_more")).click();
+                } else {
+                    driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
+                }
+
+                Thread.sleep(1000);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            driver.close();
+        }
+    }
+
+    public void CrawlAllMovieIds() {
+
+        // 웹사이트의 전체 html 문서 crawl
+        driver.get(StaticData.MOVIES_NETFLIX_URL);
+
+        movieIdList = new ArrayList<>();
+
+        try {
+
+            WebElement elements = driver.findElement(By.id("media_v4"));
+
+            // 필터와 영화 목록 전체를 포함하는 가장 하위 태그 select
+            WebElement content = elements.findElement(By.cssSelector("div.content"));
+
+            WebElement filter = content.findElements(By.tagName("div")).get(0);
+
+            WebElement whereToWatch = filter.findElements(By.className("closed")).get(1);
+
+            // 닫혀있는 필터 열기
+            whereToWatch.click();
+
+            Thread.sleep(1000);
+
+            WebElement buttons = whereToWatch.findElements(By.className("filter")).get(1).findElement(By.id("ott_providers"));
+
+            WebElement netflixButton = buttons.findElement(By.cssSelector("a[title=Netflix]"));
+
+            // 넷플릭스 필터 클릭
+            netflixButton.click();
+
+            Thread.sleep(1000);
+
+            WebElement search = filter.findElement(By.className("apply")).findElement(By.tagName("a"));
+
+            // 검색 클릭
+            search.click();
+
+            Thread.sleep(1500);
+
+            // 영화 영역
+            WebElement movies = content.findElement(By.id("media_results"));
+
+
+            WebElement page = movies.findElement(By.id("page_1"));
+
+            for (WebElement card : page.findElements(By.cssSelector("div.image"))) {
+
+                // card 의 wrapper 부분
+                WebElement wrapper = card.findElement(By.className("wrapper"));
+
+                // movie_id 가 담겨있는 URI
+                moviePath = wrapper.findElement(By.tagName("a")).getAttribute("href");
+
+                movieId = moviePath.split("/")[4].split("\\?")[0];
+
+                //movieIdList.add(Long.parseLong(movieId));
+
+                System.out.println(movieId);
+
+            }
+
+            page.findElement(By.cssSelector("p.load_more")).click();
+
+            Thread.sleep(1000);
+
+
+            /*
+            for (int i = 1; i <= 157; i++) {
+                WebElement page = movies.findElement(By.id("page_" + i));
+                //WebElement page = movies.findElement(By.id("page_1"));
+
+                for (WebElement card : page.findElements(By.className("card"))) {
+
+                    // card 의 wrapper 부분
+                    WebElement wrapper = card.findElement(By.cssSelector("div.image")).findElement(By.className("wrapper"));
+
+                    // movie_id 가 담겨있는 URI
+                    moviePath = wrapper.findElement(By.tagName("a")).getAttribute("href");
+
+                    movieId = moviePath.split("/")[4].split("\\?")[0];
+
+                    movieIdList.add(Long.parseLong(movieId));
                 }
 
                 if(i==1) {
@@ -65,6 +166,7 @@ public class CrawlingDynamic {
 
                 Thread.sleep(1000);
             }
+             */
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,7 +253,7 @@ public class CrawlingDynamic {
                     //jse.executeScript("window.scrollTo(0, document.body.scrollHeight);");
                 }
 
-                if(i==1) {
+                if (i == 1) {
                     page.findElement(By.cssSelector("p.load_more")).click();
                     Thread.sleep(2000);
                 } else {
