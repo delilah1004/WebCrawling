@@ -10,16 +10,51 @@ public class Crawling extends CrawlingDynamic {
     public static void main(String[] args) {
         CrawlingDynamic crawlingDynamic = new CrawlingDynamic();
         //crawlingDynamic.CrawlAllTVIds();
-        //crawlingDynamic.CrawlAllMovieIds();
-        //crawlingDynamic.CrawlPopularDescTVIds();
+        crawlingDynamic.CrawlPopularDescTVIds();
+
+        MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_DESC_TV_ID_LIST_FILE_PATH);
+        makeFile.makeFile();
+
+        crawlingDynamic = new CrawlingDynamic();
         crawlingDynamic.CrawlPopularAscTVIds();
 
-        //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.TV_ID_LIST_FILE_PATH);
-        //MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.MOVIE_ID_LIST_FILE_PATH);
-        //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_DESC_TV_ID_LIST_FILE_PATH);
-        MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_ASC_TV_ID_LIST_FILE_PATH);
-
+        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_ASC_TV_ID_LIST_FILE_PATH);
         makeFile.makeFile();
+
+        crawlingDynamic = new CrawlingDynamic();
+        crawlingDynamic.CrawlLatestTVIds();
+
+        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.LATEST_TV_ID_LIST_FILE_PATH);
+        makeFile.makeFile();
+
+        crawlingDynamic = new CrawlingDynamic();
+        crawlingDynamic.CrawlOldestTVIds();
+
+        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.OLDEST_TV_ID_LIST_FILE_PATH);
+        makeFile.makeFile();
+
+
+        //crawlingDynamic.CrawlAllMovieIds();
+        //crawlingDynamic.CrawlPopularDescMovieIds();
+        //crawlingDynamic.CrawlPopularAscMovieIds();
+        //crawlingDynamic.CrawlLatestMovieIds();
+        //crawlingDynamic.CrawlOldestMovieIds();
+
+
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.TV_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_DESC_TV_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_ASC_TV_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.LATEST_TV_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.OLDEST_TV_ID_LIST_FILE_PATH);
+
+
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.MOVIE_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.POPULAR_DESC_MOVIE_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.POPULAR_ASC_MOVIE_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.LATEST_MOVIE_ID_LIST_FILE_PATH);
+        //MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.OLDEST_MOVIE_ID_LIST_FILE_PATH);
+
+        //makeFile.makeFile();
 
         //JsonGetter jsonGetter = new JsonGetter();
         //jsonGetter.getTVProgramList();
