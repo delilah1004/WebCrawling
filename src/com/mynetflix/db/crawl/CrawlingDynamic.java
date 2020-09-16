@@ -21,6 +21,11 @@ public class CrawlingDynamic {
     // Web Driver
     private final WebDriver driver;
 
+    // 크롤링할 페이지 개수
+    private final int movieCount = 159;
+    private final int tvCount = 72;
+
+
     public CrawlingDynamic() {
 
         // System Property SetUp
@@ -75,7 +80,7 @@ public class CrawlingDynamic {
             WebElement movies = content.findElement(By.id("media_results"));
 
 
-            for (int i = 1; i <= 157; i++) {
+            for (int i = 1; i <= movieCount; i++) {
                 WebElement page = movies.findElement(By.id("page_" + i));
                 //WebElement page = movies.findElement(By.id("page_1"));
 
@@ -156,7 +161,7 @@ public class CrawlingDynamic {
             WebElement movies = content.findElement(By.id("media_results"));
 
 
-            for (int i = 1; i <= 159; i++) {
+            for (int i = 1; i <= movieCount; i++) {
                 WebElement page = movies.findElement(By.id("page_" + i));
                 //WebElement page = movies.findElement(By.id("page_1"));
 
@@ -250,7 +255,7 @@ public class CrawlingDynamic {
             WebElement movies = content.findElement(By.id("media_results"));
 
 
-            for (int i = 1; i <= 157; i++) {
+            for (int i = 1; i <= movieCount; i++) {
                 WebElement page = movies.findElement(By.id("page_" + i));
                 //WebElement page = movies.findElement(By.id("page_1"));
 
@@ -437,7 +442,7 @@ public class CrawlingDynamic {
             WebElement movies = content.findElement(By.id("media_results"));
 
 
-            for (int i = 1; i <= 157; i++) {
+            for (int i = 1; i <= movieCount; i++) {
                 WebElement page = movies.findElement(By.id("page_" + i));
                 //WebElement page = movies.findElement(By.id("page_1"));
 
@@ -491,7 +496,6 @@ public class CrawlingDynamic {
 
             for (int i = 1; i <= 45; i++) {
                 WebElement page = elements.findElement(By.id("results_page_" + i));
-                //WebElement page = elements.findElement(By.id("results_page_1"));
 
                 for (WebElement card : page.findElements(By.className("card"))) {
 
@@ -564,7 +568,7 @@ public class CrawlingDynamic {
             // TV 프로그램 영역
             WebElement tvs = content.findElement(By.id("media_results"));
 
-            for (int i = 1; i <= 72; i++) {
+            for (int i = 1; i <= tvCount; i++) {
                 WebElement page = tvs.findElement(By.id("page_" + i));
 
                 for (WebElement card : page.findElements(By.cssSelector("div.image"))) {
@@ -656,7 +660,7 @@ public class CrawlingDynamic {
             // TV 프로그램 영역
             WebElement tvs = content.findElement(By.id("media_results"));
 
-            for (int i = 1; i <= 72; i++) {
+            for (int i = 1; i <= tvCount; i++) {
                 WebElement page = tvs.findElement(By.id("page_" + i));
 
                 for (WebElement card : page.findElements(By.cssSelector("div.image"))) {
@@ -748,7 +752,7 @@ public class CrawlingDynamic {
             // TV 프로그램 영역
             WebElement tvs = content.findElement(By.id("media_results"));
 
-            for (int i = 1; i <= 72; i++) {
+            for (int i = 1; i <= tvCount; i++) {
                 WebElement page = tvs.findElement(By.id("page_" + i));
 
                 for (WebElement card : page.findElements(By.cssSelector("div.image"))) {
@@ -840,7 +844,7 @@ public class CrawlingDynamic {
             // TV 프로그램 영역
             WebElement tvs = content.findElement(By.id("media_results"));
 
-            for (int i = 1; i <= 72; i++) {
+            for (int i = 1; i <= tvCount; i++) {
                 WebElement page = tvs.findElement(By.id("page_" + i));
 
                 for (WebElement card : page.findElements(By.cssSelector("div.image"))) {
@@ -877,101 +881,4 @@ public class CrawlingDynamic {
         }
     }
 
-    public void crawl() {
-
-        try {
-            // 영화 목록 전체를 포함하는 가장 하위 태그 select
-            WebElement elements = driver.findElement(By.cssSelector("div.items_wrapper"));
-
-            // 영화 정보가 담긴 하나의 카드 전체를 포함하는 가장 하위 태그 select
-            WebElement card = elements.findElement(By.id("results_page_1")).findElements(By.className("card")).get(0);
-
-            // 카드에서 포스터 이미지를 제외한 모든 정보가 담겨있는 가장 하위 태그 select
-            WebElement content = card.findElement(By.className("details"));
-
-            // title 클래스에 개봉 날짜 정보와 개요 정보가 담겨있음
-            WebElement contentTitle = content.findElement(By.className("title"));
-
-            // 포스터 이미지 URL
-            posterPath = "http:" + card.findElement(By.cssSelector(".image img")).getAttribute("data-src");
-            // 영화 제목
-            title = contentTitle.findElement(By.tagName("h2")).getText();
-            // 개봉 날짜
-            releaseDate = contentTitle.findElement(By.className("release_date")).getText();
-
-            // 영화 개요
-            overview = content.findElement(By.cssSelector(".overview p")).getText();
-
-            // MoviePreview 객체를 새로 선언하고 정보 담기
-            movie = new MoviePreview(posterPath, title, releaseDate, overview);
-
-            System.out.println(movie);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            driver.close();
-        }
-    }
-
-    public void crawlLoop() {
-
-        movieList = new ArrayList<>();
-
-        try {
-            // 영화 목록 전체를 포함하는 가장 하위 태그 select
-            WebElement elements = driver.findElement(By.cssSelector("div.items_wrapper"));
-
-            for (int i = 1; i < 4; i++) {
-                WebElement page = elements.findElement(By.id("results_page_" + i));
-                //WebElement page = elements.findElement(By.id("results_page_1"));
-
-                for (WebElement card : page.findElements(By.className("card"))) {
-
-                    // 카드에서 포스터 이미지를 제외한 모든 정보가 담겨있는 가장 하위 태그 select
-                    WebElement content = card.findElement(By.className("details"));
-
-                    // title 클래스에 개봉 날짜 정보와 개요 정보가 담겨있음
-                    WebElement contentTitle = content.findElement(By.className("title"));
-
-                    // 포스터 이미지 URL
-                    posterPath = "http:" + card.findElement(By.cssSelector(".image img")).getAttribute("data-src");
-                    // 영화 제목
-                    title = contentTitle.findElement(By.tagName("h2")).getText();
-                    // 개봉 날짜
-                    releaseDate = contentTitle.findElement(By.className("release_date")).getText();
-
-                    try {
-                        // 영화 개요
-                        overview = content.findElement(By.cssSelector(".overview p")).getText();
-                    } catch (NoSuchElementException e) {
-                        overview = "";
-                    }
-
-                    // MoviePreview 객체를 새로 선언하고 정보 담기
-                    movie = new MoviePreview(posterPath, title, releaseDate, overview);
-                    movieList.add(movie);
-
-                    //jse.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-                }
-
-                if (i == 1) {
-                    page.findElement(By.cssSelector("p.load_more")).click();
-                    Thread.sleep(2000);
-                } else {
-                    driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
-                    Thread.sleep(2000);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            driver.close();
-        }
-
-        for (MoviePreview m : movieList) {
-            System.out.println(m.toString());
-        }
-    }
 }

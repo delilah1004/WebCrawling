@@ -15,30 +15,52 @@ public class Crawling extends CrawlingDynamic {
         MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_DESC_TV_ID_LIST_FILE_PATH);
         makeFile.makeFile();
 
-        crawlingDynamic = new CrawlingDynamic();
-        crawlingDynamic.CrawlPopularAscTVIds();
-
-        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_ASC_TV_ID_LIST_FILE_PATH);
-        makeFile.makeFile();
-
-        crawlingDynamic = new CrawlingDynamic();
-        crawlingDynamic.CrawlLatestTVIds();
-
-        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.LATEST_TV_ID_LIST_FILE_PATH);
-        makeFile.makeFile();
-
-        crawlingDynamic = new CrawlingDynamic();
-        crawlingDynamic.CrawlOldestTVIds();
-
-        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.OLDEST_TV_ID_LIST_FILE_PATH);
-        makeFile.makeFile();
+//        crawlingDynamic = new CrawlingDynamic();
+//        crawlingDynamic.CrawlPopularAscTVIds();
+//
+//        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.POPULAR_ASC_TV_ID_LIST_FILE_PATH);
+//        makeFile.makeFile();
+//
+//        crawlingDynamic = new CrawlingDynamic();
+//        crawlingDynamic.CrawlLatestTVIds();
+//
+//        makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.LATEST_TV_ID_LIST_FILE_PATH);
+//        makeFile.makeFile();
+//
+//        crawlingDynamic = new CrawlingDynamic();
+//        crawlingDynamic.CrawlOldestTVIds();
+//
+//        MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.OLDEST_TV_ID_LIST_FILE_PATH);
+//        makeFile.makeFile();
 
 
         //crawlingDynamic.CrawlAllMovieIds();
-        //crawlingDynamic.CrawlPopularDescMovieIds();
-        //crawlingDynamic.CrawlPopularAscMovieIds();
-        //crawlingDynamic.CrawlLatestMovieIds();
-        //crawlingDynamic.CrawlOldestMovieIds();
+
+
+//        crawlingDynamic = new CrawlingDynamic();
+//        crawlingDynamic.CrawlPopularDescMovieIds();
+//
+//        makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.POPULAR_DESC_MOVIE_ID_LIST_FILE_PATH);
+//        makeFile.makeFile();
+
+//        crawlingDynamic = new CrawlingDynamic();
+//        crawlingDynamic.CrawlPopularAscMovieIds();
+//
+//        MakeFile makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.POPULAR_ASC_MOVIE_ID_LIST_FILE_PATH);
+//        makeFile.makeFile();
+//
+//        crawlingDynamic = new CrawlingDynamic();
+//        crawlingDynamic.CrawlLatestMovieIds();
+//
+//        makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.LATEST_MOVIE_ID_LIST_FILE_PATH);
+//        makeFile.makeFile();
+
+//        crawlingDynamic = new CrawlingDynamic();
+//        crawlingDynamic.CrawlOldestMovieIds();
+//
+//        makeFile = new MakeFile(crawlingDynamic.movieIdList, StaticData.OLDEST_MOVIE_ID_LIST_FILE_PATH);
+//        makeFile.makeFile();
+
 
 
         //MakeFile makeFile = new MakeFile(crawlingDynamic.tvIdList, StaticData.TV_ID_LIST_FILE_PATH);
